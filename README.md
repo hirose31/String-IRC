@@ -5,44 +5,80 @@
 
 # NAME
 
-String::IRC - fixme
+String::IRC - add color codes for mIRC compatible client
 
 # SYNOPSIS
 
     use String::IRC;
-    fixme
+
+    my $si1 = String::IRC->new('hello');
+    $si1->red->underline;
+    my $si2 = String::IRC->new('world')->yellow('green')->bold;
+    my $msg = "$si1, $si2!";
 
 # DESCRIPTION
 
-String::IRC is fixme
+String::IRC can be used to add color or decoration code to string.
 
 # METHODS
 
-## Class Methods
+## new
 
-### **new**(%args:Hash) :String::IRC
+    $si = String::IRC->new('I love YAKINIKU.');
 
-Creates and returns a new String::IRC client instance. Dies on errors.
+This method constructs a new "String::IRC" instance and returns
+it.
 
-%args is following:
+## COLOR
 
-- hostname => Str ("127.0.0.1")
+    $si->COLOR([BG_COLOR]);
 
-## Instance Methods
+Add color code and return String::IRC object. BG\_COLOR is
+optional. Available COLOR and BC\_COLOR are as follows.
 
-### **method\_name**($message:Str) :Bool
+    white
+    black
+    blue navy
+    green
+    red
+    brown maroon
+    purple
+    orange olive
+    yellow
+    lightt_green lime
+    teal
+    light_cyan cyan aqua
+    light_blue royal
+    pink light_purple fuchsia
+    grey
+    light_grey silver
 
-# ENVIRONMENT VARIABLES
+## bold
 
-- HOME
+    $si->bold;
 
-    Used to determine the user's home directory.
+Add bold code and return String::IRC object.
 
-# FILES
+## underline
 
-- `/path/to/config.ph`
+    $si->underline;
 
-    設定ファイル。
+Add underline code and return String::IRC object.
+
+## inverse
+
+    $si->inverse;
+
+Add inverse code and return String::IRC object.
+
+## stringify
+
+    $si->stringify;
+
+Return string which is added color or decoration code.
+
+String::IRC calls this method implicitly by context. You may call it
+explicitly.
 
 # AUTHOR
 
@@ -58,8 +94,7 @@ patches and collaborators are welcome.
 
 # SEE ALSO
 
-[Module::Hoge](https://metacpan.org/pod/Module::Hoge),
-ls(1), cd(1)
+[http://www.mirc.co.uk/help/color.txt](http://www.mirc.co.uk/help/color.txt)
 
 # COPYRIGHT
 

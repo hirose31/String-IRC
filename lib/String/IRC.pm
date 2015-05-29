@@ -4,37 +4,73 @@ use strict;
 use warnings;
 use 5.008_005;
 
-our $VERSION = '0.001';
+our $VERSION = '0.02';
 
-use Class::Accessor::Lite (
-    new => 0,
-    rw  => [qw(name)],
-    ro  => [qw(id)],
-    wo  => [qw()],
-);
-# or
-# use Class::Accessor::Lite;
-# Class::Accessor::Lite->mk_accessors(qw(name));
-# Class::Accessor::Lite->mk_ro_accessors(qw(id));
-
-use Data::Validator;
-use Log::Minimal;
-use Carp;
+use overload (
+    q{""}    => 'stringify',
+    fallback => 'stringify',
+   );
 
 sub new {
-    my($class, $args) = Data::Validator->new(
-        id   => { isa => 'Int', default  => 'foo' },
-        name => { isa => 'Str', optional => 1 },
-    )->with('Method')->validate(@_);
+    my $class = shift;
+    my $self = {};
+    bless $self, $class;
 
-    my $self = bless {
-        id   => 0,
-        name => 'no name',
-        %$args
-    }, $class;
-    Carp::croak("missing mandatory args: id") unless $self->{id};
+    $self->{string} = shift || "";
+
     return $self;
 }
+
+sub _add_code_l {
+    my ($self, $code) = @_;
+    $self->{string} = $code . $self->{string};
+    return $self;
+}
+
+my %color_table = (
+    0  => [qw(white)],
+    1  => [qw(black)],
+    2  => [qw(blue         navy)],
+    3  => [qw(green)],
+    4  => [qw(red)],
+    5  => [qw(brown        maroon)],
+    6  => [qw(purple)],
+    7  => [qw(orange       olive)],
+    8  => [qw(yellow)],
+    9  => [qw(lightt_green lime)],
+    10 => [qw(teal)],
+    11 => [qw(light_cyan   cyan aqua)],
+    12 => [qw(light_blue   royal)],
+    13 => [qw(pink         light_purple  fuchsia)],
+    14 => [qw(grey)],
+    15 => [qw(light_grey   silver)],
+   );
+my %color_name_table;
+{
+    ## no critic
+    no strict 'refs';
+    while (my ($code, $colors) = each %color_table) {
+        for my $color (@$colors) {
+            $color_name_table{ $color } = $code;
+
+            *{__PACKAGE__.'::'.$color} = sub {
+                my $color_code = "";
+                if ($_[1] && exists $color_name_table{ $_[1] }) {
+                    $color_code .= "$code,$color_name_table{ $_[1] }";
+                } else {
+                    $color_code .= "$code";
+                }
+                $_[0]->_add_code_l("$color_code");
+            };
+        }
+    }
+}
+
+sub bold      { $_[0]->_add_code_l(""); }
+sub underline { $_[0]->_add_code_l(""); }
+sub inverse   { $_[0]->_add_code_l(""); }
+
+sub stringify { $_[0]->{string} . ""; }
 
 1;
 
@@ -51,7 +87,7 @@ __END__
 
 =head1 NAME
 
-String::IRC - fixme
+String::IRC - add color codes for mIRC compatible client
 
 =begin readme
 
@@ -69,51 +105,75 @@ To install this module, run the following commands:
 =head1 SYNOPSIS
 
     use String::IRC;
-    fixme
+
+    my $si1 = String::IRC->new('hello');
+    $si1->red->underline;
+    my $si2 = String::IRC->new('world')->yellow('green')->bold;
+    my $msg = "$si1, $si2!";
 
 =head1 DESCRIPTION
 
-String::IRC is fixme
+String::IRC can be used to add color or decoration code to string.
 
 =head1 METHODS
 
-=head2 Class Methods
+=head2 new
 
-=head3 B<new>(%args:Hash) :String::IRC
+  $si = String::IRC->new('I love YAKINIKU.');
 
-Creates and returns a new String::IRC client instance. Dies on errors.
+This method constructs a new "String::IRC" instance and returns
+it.
 
-%args is following:
+=head2 COLOR
 
-=over 4
+  $si->COLOR([BG_COLOR]);
 
-=item hostname => Str ("127.0.0.1")
+Add color code and return String::IRC object. BG_COLOR is
+optional. Available COLOR and BC_COLOR are as follows.
 
-=back
+  white
+  black
+  blue navy
+  green
+  red
+  brown maroon
+  purple
+  orange olive
+  yellow
+  lightt_green lime
+  teal
+  light_cyan cyan aqua
+  light_blue royal
+  pink light_purple fuchsia
+  grey
+  light_grey silver
 
-=head2 Instance Methods
+=head2 bold
 
-=head3 B<method_name>($message:Str) :Bool
+  $si->bold;
 
-=head1 ENVIRONMENT VARIABLES
+Add bold code and return String::IRC object.
 
-=over 4
+=head2 underline
 
-=item HOME
+  $si->underline;
 
-Used to determine the user's home directory.
+Add underline code and return String::IRC object.
 
-=back
+=head2 inverse
 
-=head1 FILES
+  $si->inverse;
 
-=over 4
+Add inverse code and return String::IRC object.
 
-=item F</path/to/config.ph>
+=head2 stringify
 
-設定ファイル。
+  $si->stringify;
 
-=back
+Return string which is added color or decoration code.
+
+String::IRC calls this method implicitly by context. You may call it
+explicitly.
 
 =head1 AUTHOR
 
@@ -129,8 +189,7 @@ patches and collaborators are welcome.
 
 =head1 SEE ALSO
 
-L<Module::Hoge|Module::Hoge>,
-ls(1), cd(1)
+L<http://www.mirc.co.uk/help/color.txt>
 
 =head1 COPYRIGHT
 

@@ -1,11 +1,11 @@
 Revision history for String-IRC
 
 {{$NEXT}}
-    [NEW FEATURES]
-    [IMPROVEMENTS]
-    [INCOMPATIBLE CHANGES]
-    [BUG FIXES]
-    [DOCUMENTATION]
-    [SECURITY]
-        - Initial version
 
+0.02  2007-02-23
+    [BUG FIXES]
+        - build require Test::Base.
+
+0.01  2007-02-15
+    [NEW FEATURES]
+      - Initial release.
