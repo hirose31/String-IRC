@@ -10,14 +10,15 @@ on develop => sub {
     requires 'App::scan_prereqs_cpanfile', '0.09';
     requires 'Pod::Wordlist';
     requires 'Test::Fixme';
+    requires 'Test::Kwalitee';
+    requires 'Test::Kwalitee::Extra';
     requires 'Test::Spelling', '0.12';
-    requires 'Test::Kwalitee', '1.21';
     requires 'Test::More', '0.96';
-    requires 'Test::Pod', '1.41';
+    requires 'Test::Pod';
     requires 'Test::Vars';
 };
 
 on test => sub {
-    requires 'Test::More', '0.88';
+    requires 'Test::More', '0.96';
     requires 'Test::Base';
 };
