@@ -1,6 +1,8 @@
 Revision history for String-IRC
 
 {{$NEXT}}
+
+0.05      2023-09-27 04:03:19+00:00 UTC
     [BUG FIXES]
         - Fix unable to construct string with input "0". https://rt.cpan.org/Public/Bug/Display.html?id=149898
 
