@@ -17,10 +17,10 @@ run {
 __END__
 === yellow red
 --- input:  hello
---- expect: 8,4hello
+--- expect: 08,04hello
 === red yellow
 --- input:  hello
---- expect: 4,8hello
+--- expect: 04,08hello
 === red cyan
 --- input:  hello
---- expect: 4,11hello
+--- expect: 04,11hello

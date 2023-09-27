@@ -17,13 +17,13 @@ run {
 __END__
 === red
 --- input:  hello
---- expect: 4hello
+--- expect: 04hello
 === blue
 --- input:  hello
---- expect: 2hello
+--- expect: 02hello
 === light_purple
 --- input:  hello
 --- expect: 13hello
 === red
 --- input:
---- expect: 4
+--- expect: 04

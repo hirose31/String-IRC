@@ -20,4 +20,4 @@ run {
 __END__
 === bold yellow
 --- input:  hello
---- expect: 8hello
+--- expect: 08hello
