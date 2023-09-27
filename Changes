@@ -1,6 +1,8 @@
 Revision history for String-IRC
 
 {{$NEXT}}
+    [BUG FIXES]
+        - Fix unable to construct string with input "0". https://rt.cpan.org/Public/Bug/Display.html?id=149898
 
 0.04  2008-11-13
     [BUG FIXES]
