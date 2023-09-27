@@ -45,7 +45,7 @@ optional. Available COLOR and BC\_COLOR are as follows.
     purple
     orange olive
     yellow
-    lightt_green lime
+    light_green lime
     teal
     light_cyan cyan aqua
     light_blue royal

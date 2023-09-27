@@ -17,7 +17,7 @@ sub new {
     my $self = {};
     bless $self, $class;
 
-    $self->{string} = shift || "";
+    $self->{string} = defined $_[0] ? shift : "";
 
     return $self;
 }
